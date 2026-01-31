@@ -1,30 +1,23 @@
 # Iron Lady Operations Hub
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+A web application built as part of an interview assignment to demonstrate UI development, component structure, and deployment workflow.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/dineshtd26s-projects/v0-iron-lady-operations-hub)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/ndd4Hi1BQmJ)
+## Features
+- Clean and responsive user interface
+- Component-based design
+- Deployed and accessible via public URL
 
-## Overview
+## Tech Stack
+- Next.js
+- React
+- Tailwind CSS
+- Vercel
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## Live Demo
+https://iron-lady-operations-hub.vercel.app
 
-## Deployment
+## Local Setup
 
-Your project is live at:
-
-**[https://vercel.com/dineshtd26s-projects/v0-iron-lady-operations-hub](https://vercel.com/dineshtd26s-projects/v0-iron-lady-operations-hub)**
-
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.app/chat/ndd4Hi1BQmJ](https://v0.app/chat/ndd4Hi1BQmJ)**
-
-## How It Works
-
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+```bash
+npm install
+npm run dev
