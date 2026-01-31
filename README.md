@@ -14,7 +14,7 @@ A web application built as part of an interview assignment to demonstrate UI dev
 - Vercel
 
 ## Live Demo
-https://iron-lady-operations-hub.vercel.app
+https://v0-iron-lady-operations-hub.vercel.app/
 
 ## Local Setup
 
