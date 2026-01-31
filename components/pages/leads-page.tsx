@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { StatCard } from '@/components/stat-card';
 import { leadsStore } from '@/lib/store';
 import type { Lead } from '@/lib/types';
 
@@ -113,42 +115,83 @@ export default function LeadsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Filters */}
-      <div className="flex gap-4 flex-wrap">
-        <div className="flex-1 min-w-48">
-          <Label htmlFor="filter-program" className="text-sm font-medium">Filter by Program</Label>
-          <select
-            id="filter-program"
-            value={filterProgram}
-            onChange={(e) => setFilterProgram(e.target.value)}
-            className="w-full mt-2 px-3 py-2 border border-input rounded-md bg-background"
-          >
-            <option value="">All Programs</option>
-            {programs.map(p => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
-        </div>
-        <div className="flex-1 min-w-48">
-          <Label htmlFor="filter-status" className="text-sm font-medium">Filter by Status</Label>
-          <select
-            id="filter-status"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full mt-2 px-3 py-2 border border-input rounded-md bg-background"
-          >
-            <option value="">All Statuses</option>
-            <option value="new">New</option>
-            <option value="contacted">Contacted</option>
-            <option value="converted">Converted</option>
-          </select>
-        </div>
-        <div className="flex items-end">
+    <div className="space-y-8">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <StatCard
+          label="Total Leads"
+          value={leads.length}
+          icon="👥"
+          color="primary"
+          trend={{ direction: 'up', percentage: 12 }}
+        />
+        <StatCard
+          label="New Leads"
+          value={leads.filter(l => l.status === 'new').length}
+          icon="✨"
+          color="accent"
+          trend={{ direction: 'up', percentage: 8 }}
+        />
+        <StatCard
+          label="Converted"
+          value={leads.filter(l => l.status === 'converted').length}
+          icon="✅"
+          color="secondary"
+          trend={{ direction: 'up', percentage: 15 }}
+        />
+      </div>
+
+      {/* Filters Section */}
+      <Card className="border-border">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Leads Management</CardTitle>
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  onClick={() => { resetForm(); setEditingLead(null); }}
+                  className="bg-gradient-to-r from-primary to-accent text-white"
+                  size="sm"
+                >
+                  + Add New Lead
+                </Button>
+              </DialogTrigger>
+            </Dialog>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex gap-4 flex-wrap items-end">
+            <div className="flex-1 min-w-48">
+              <Label htmlFor="filter-program" className="text-sm font-medium">Filter by Program</Label>
+              <select
+                id="filter-program"
+                value={filterProgram}
+                onChange={(e) => setFilterProgram(e.target.value)}
+                className="w-full mt-2 px-3 py-2 border border-input rounded-lg bg-background hover:border-primary transition-colors"
+              >
+                <option value="">All Programs</option>
+                {programs.map(p => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1 min-w-48">
+              <Label htmlFor="filter-status" className="text-sm font-medium">Filter by Status</Label>
+              <select
+                id="filter-status"
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="w-full mt-2 px-3 py-2 border border-input rounded-lg bg-background hover:border-primary transition-colors"
+              >
+                <option value="">All Statuses</option>
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="converted">Converted</option>
+              </select>
+            </div>
+          </div>
+
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => { resetForm(); setEditingLead(null); }} size="lg">+ Add New Lead</Button>
-            </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Add New Lead</DialogTitle>
@@ -225,13 +268,13 @@ export default function LeadsPage() {
               </div>
             </DialogContent>
           </Dialog>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Table */}
-      <div className="border border-border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader className="bg-slate-50">
+          {/* Table */}
+          <div className="border border-border rounded-lg overflow-hidden shadow-sm">
+            <Table>
+              <TableHeader className="bg-muted/50 hover:bg-muted/70 transition-colors">
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
@@ -290,9 +333,9 @@ export default function LeadsPage() {
                 </TableRow>
               ))
             )}
-          </TableBody>
-        </Table>
-      </div>
+            </TableBody>
+            </Table>
+          </div>
 
       {/* Edit Dialog */}
       {editingLead && (
@@ -346,21 +389,6 @@ export default function LeadsPage() {
         </Dialog>
       )}
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mt-6">
-        <div className="border border-border rounded-lg p-4">
-          <p className="text-sm text-muted-foreground">Total Leads</p>
-          <p className="text-2xl font-bold">{leads.length}</p>
-        </div>
-        <div className="border border-border rounded-lg p-4">
-          <p className="text-sm text-muted-foreground">New Leads</p>
-          <p className="text-2xl font-bold">{leads.filter(l => l.status === 'new').length}</p>
-        </div>
-        <div className="border border-border rounded-lg p-4">
-          <p className="text-sm text-muted-foreground">Converted</p>
-          <p className="text-2xl font-bold">{leads.filter(l => l.status === 'converted').length}</p>
-        </div>
-      </div>
     </div>
   );
 }
